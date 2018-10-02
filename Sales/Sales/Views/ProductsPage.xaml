@@ -9,7 +9,10 @@
 
             <ListView ItemsSource="{Binding ProductsList}"
                       HasUnevenRows="True"
-                       SeparatorColor="IndianRed">
+                       SeparatorColor="IndianRed"
+                      IsRefreshing="{Binding IsRefreshing}"
+                      RefreshCommand="{Binding RefreshCommand}"
+                      IsPullToRefreshEnabled="True">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
@@ -20,9 +23,11 @@
                                 </Grid.ColumnDefinitions>
                                 <Label Grid.Column="0" 
                                        Text="{Binding Description}"
-                                       FontAttributes="Bold">                                    
+                                       FontAttributes="Bold"
+                                       FontSize="Medium">                                    
                                 </Label>
                                 <Label Grid.Column="1"
+                                       FontSize="Small"
                                        HorizontalOptions="End"
                                        Text="{Binding Price, StringFormat='Price: {0:C2}'}">
                                 </Label>

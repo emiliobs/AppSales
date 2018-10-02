@@ -1,17 +1,20 @@
 ﻿namespace Sales.ViewModels
 {
+    using GalaSoft.MvvmLight.Command;
     using Sales.Models;
     using Sales.Services;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Text;
+    using System.Windows.Input;
     using Xamarin.Forms;
 
     public class ProductsViewModel : BaseViewModel
     {
         #region Service
         private ApiService apiService;
+        private bool isRefreshing;
         #endregion
 
         #region Attributtes
@@ -19,6 +22,18 @@
         #endregion
 
         #region Properties
+        public bool IsRefreshing
+        {
+            get=> isRefreshing;
+            set
+            {
+                if (isRefreshing != value)
+                {
+                    isRefreshing = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
         public ObservableCollection<Products> ProductsList
         {
             get => productsList;
@@ -46,21 +61,35 @@
         #endregion
 
         #region Commands and Methods
-
+        public ICommand RefreshCommand { get => new RelayCommand(LoadProduct); }
         #endregion
 
         #region Methods
         private async void LoadProduct()
         {
-            //var UrlAPI = App.Current.Resources["UrlAPI"].ToString();
-            //var UrlPrefix = App.Current.Resources["UrlPrefix"].ToString();
-            //var UrlProductsController = App.Current.Resources["UrlProductsController"].ToString();
+            this.IsRefreshing = true;
 
-            //var response = await apiService.GetList<Products>(UrlAPI, UrlPrefix, UrlProductsController);
-            var response = await apiService.GetList<Products>("http://192.168.0.11:555", "/api", "/ProductsAPI");
+            var connection = await apiService.CheckConnection();
+
+            if (!connection.IsSuccess)
+            {
+                this.IsRefreshing = false;
+
+                await Application.Current.MainPage.DisplayAlert("Erro.", connection.Message, "Accept.");
+
+                return;
+            }
+
+            var UrlAPI = App.Current.Resources["UrlAPI"].ToString();
+            var UrlPrefix = App.Current.Resources["UrlPrefix"].ToString();
+            var UrlProductsController = App.Current.Resources["UrlProductsController"].ToString();
+
+            var response = await apiService.GetList<Products>(UrlAPI, UrlPrefix, UrlProductsController);
+            //var response = await apiService.GetList<Products>("http://192.168.0.11:555", "/api", "/ProductsAPI");
 
             if (!response.IsSuccess)
             {
+                this.IsRefreshing = false;
                 await Application.Current.MainPage.DisplayAlert("Error.",response.Message, "Accept.");
 
                 return;
@@ -71,6 +100,8 @@
 
             //aqui ya armo la observablecollection con lalista ya castiada:
             ProductsList = new ObservableCollection<Products>(list);
+
+            this.IsRefreshing = false;
         }
         #endregion
     }
