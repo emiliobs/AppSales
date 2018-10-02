@@ -1,8 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Application xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:infra="clr-namespace:Sales.Infrastructure"
              x:Class="Sales.App">
     <Application.Resources>
+        <ResourceDictionary>                
+            
+            <!--Locator-->
+            <infra:InstaceLocator x:Key="Locator"></infra:InstaceLocator>
 
+            <!-- Url Api -->
+            <x:String x:Key="UrlAPI">http://192.168.0.11:555</x:String>
+            <x:String x:Key="UrlPrefix">/api</x:String>
+            <x:String x:Key="UrlProductsController">/ProductsAPI</x:String>
+            <x:String x:Key="UrlUsersController">/Users</x:String>
+            <x:String x:Key="UrlUsersControllerGetUser">/GetUser</x:String>
+
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
