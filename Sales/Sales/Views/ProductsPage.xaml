@@ -7,8 +7,29 @@
     <ContentPage.Content>
         <StackLayout BindingContext="{Binding Products}" Padding="10" Spacing="5">
 
-            <ListView ItemsSource="{Binding ProductsList}">
-                
+            <ListView ItemsSource="{Binding ProductsList}"
+                      HasUnevenRows="True"
+                       SeparatorColor="IndianRed">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" 
+                                       Text="{Binding Description}"
+                                       FontAttributes="Bold">                                    
+                                </Label>
+                                <Label Grid.Column="1"
+                                       HorizontalOptions="End"
+                                       Text="{Binding Price, StringFormat='Price: {0:C2}'}">
+                                </Label>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
             </ListView>
             
         </StackLayout>

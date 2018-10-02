@@ -70,7 +70,7 @@
             var list = (List<Products>)response.Result;
 
             //aqui ya armo la observablecollection con lalista ya castiada:
-            productsList = new ObservableCollection<Products>(list);
+            ProductsList = new ObservableCollection<Products>(list);
         }
         #endregion
     }
