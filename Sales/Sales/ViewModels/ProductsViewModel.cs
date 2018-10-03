@@ -1,6 +1,7 @@
 ﻿namespace Sales.ViewModels
 {
     using GalaSoft.MvvmLight.Command;
+    using Sales.Helpers;
     using Sales.Models;
     using Sales.Services;
     using System;
@@ -75,7 +76,7 @@
             {
                 this.IsRefreshing = false;
 
-                await Application.Current.MainPage.DisplayAlert("Erro.", connection.Message, "Accept.");
+                await Application.Current.MainPage.DisplayAlert(Languages.Error, connection.Message, Languages.Accept);
 
                 return;
             }
@@ -90,7 +91,7 @@
             if (!response.IsSuccess)
             {
                 this.IsRefreshing = false;
-                await Application.Current.MainPage.DisplayAlert("Error.",response.Message, "Accept.");
+                await Application.Current.MainPage.DisplayAlert(Languages.Error,response.Message, Languages.Error);
 
                 return;
             }

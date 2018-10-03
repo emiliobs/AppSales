@@ -7,6 +7,7 @@
     using System.Threading.Tasks;
     using Newtonsoft.Json;
     using Plugin.Connectivity;
+    using Sales.Helpers;
     using Sales.Models;
 
     public class ApiService
@@ -18,8 +19,9 @@
                 return new Response
                 {
                     IsSuccess = false,
-                    Message = "Please turn on your internet setting.",
-                    //Message = Languages.InternetSetting,
+                  
+                    //Message = "Please turn on your internet setting.",
+                    Message = Languages.TurnOnInternet,
                 };
             }
 
@@ -30,8 +32,9 @@
                 return new Response()
                 {
                     IsSuccess = false,
-                    Message = "No internet connection,",
-                    //Message = Languages.NoInternet,
+                   
+                    //Message = "No internet connection,",
+                    Message = Languages.NoInternet,
                 };
             }
 
@@ -39,6 +42,7 @@
             {
                 IsSuccess = true,
                 Message = "OK",
+                //Message = "OK",
             };
         }
 
