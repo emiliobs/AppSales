@@ -121,7 +121,26 @@
             {
                 return NotFound("Sorry,the Product wasn't Found.!");
             }
-            return View(product);
+
+            //de producto al productView
+            var view = ToView(product);
+
+            return View(view);
+        }
+
+        private ProductsView ToView(Product product)
+        {
+            return new ProductsView()
+            {
+                 Description = product.Description,
+                 ImagePath = product.ImagePath,
+                 Price = product.Price,
+                 ProductId = product.ProductId,
+                 IsAvailable = product.IsAvailable,
+                 PublishOn = product.PublishOn,
+                 Remarks  = product.Remarks,
+
+            };
         }
 
         // POST: Products/Edit/5
@@ -129,15 +148,37 @@
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id,  Product product)
+        public async Task<IActionResult> Edit(ProductsView view, IFormFile imageFile)
         {
-            if (id != product.ProductId)
-            {
-                return NotFound();
-            }
+            //if (id != product.ProductId)
+            //{
+            //    return NotFound();
+            //}
 
             if (ModelState.IsValid)
             {
+
+                var picture = view.ImagePath;
+
+                if (imageFile != null)
+                {
+                    var path = Path.Combine(this._environment.WebRootPath, "images");
+                    Directory.CreateDirectory(path);
+
+                    picture = imageFile.FileName;
+
+                    if (picture.Contains('\\'))
+                    {
+                        picture = picture.Split('\\').Last();
+                    }
+                    using (FileStream fs = new FileStream(Path.Combine(path, "", picture), FileMode.Create))
+                    {
+                        await imageFile.CopyToAsync(fs);
+                    }
+                }
+
+                var product = ToProduct(view, picture);
+
                 try
                 {
                     _context.Update(product);
@@ -156,7 +197,7 @@
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(product);
+            return View(view);
         }
 
         // GET: Products/Delete/5
