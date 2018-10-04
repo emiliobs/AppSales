@@ -19,18 +19,25 @@
                         <ViewCell>
                             <Grid>
                                 <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
                                     <ColumnDefinition Width="2*"></ColumnDefinition>
                                     <ColumnDefinition Width="*"></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
-                                <Label Grid.Column="0" 
+                                <Image Source="{Binding ImageFullPath}"
+                                       WidthRequest="85"
+                                       HeightRequest="85">                                    
+                                </Image>
+                                <Label Grid.Column="1" 
                                        Text="{Binding Description}"
                                        FontAttributes="Bold"
-                                       FontSize="Medium">                                    
+                                       FontSize="Medium"
+                                       VerticalOptions="Center">                                    
                                 </Label>
-                                <Label Grid.Column="1"
+                                <Label Grid.Column="2"
                                        FontSize="Small"
                                        HorizontalOptions="End"
-                                       Text="{Binding Price, StringFormat='Price: {0:C2}'}">
+                                       Text="{Binding Price, StringFormat='{0:C2}'}"
+                                       VerticalOptions="Center">
                                 </Label>
                             </Grid>
                         </ViewCell>

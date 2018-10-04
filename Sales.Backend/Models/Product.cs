@@ -31,17 +31,19 @@ namespace Sales.Backend.Models
         [Display(Name = "Publish On")]
         public DateTime PublishOn { get; set; }
 
+
         //public string ImageFullPath
         //{
         //    get
         //    {
         //        if (string.IsNullOrEmpty(ImagePath))
         //        {
-        //            return $"Sales";
+        //            return $"noproduct"; 
         //        }
-
+                
+        //       // return ImagePath;
         //        //return $"https://salesapiservices.azurewebsites.net/{ImagePath.Substring(1)}";
-        //         return $"https://192.168.0.11:555/{ImagePath.Substring(1)}";
+        //        return $"http://192.168.0.11:555/images/{ImagePath}";
         //    }
 
         //}
