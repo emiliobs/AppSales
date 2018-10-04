@@ -10,7 +10,6 @@
 
             <ListView ItemsSource="{Binding ProductsList}"
                       HasUnevenRows="True"
-                       SeparatorColor="IndianRed"
                       IsRefreshing="{Binding IsRefreshing}"
                       RefreshCommand="{Binding RefreshCommand}"
                       IsPullToRefreshEnabled="True">
@@ -27,14 +26,16 @@
                                        WidthRequest="85"
                                        HeightRequest="85">                                    
                                 </Image>
-                                <Label Grid.Column="1" 
+                                <StackLayout Grid.Column="1" >
+                                    <Label 
                                        Text="{Binding Description}"
-                                       FontAttributes="Bold"
-                                       FontSize="Medium"
-                                       VerticalOptions="Center">                                    
-                                </Label>
+                                       FontAttributes="Bold"                                      
+                                       VerticalOptions="Center">
+                                    </Label>
+                                    <Label Text="{Binding Remarks}"></Label>
+                                </StackLayout>
+                                
                                 <Label Grid.Column="2"
-                                       FontSize="Small"
                                        HorizontalOptions="End"
                                        Text="{Binding Price, StringFormat='{0:C2}'}"
                                        VerticalOptions="Center">
