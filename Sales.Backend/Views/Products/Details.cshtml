@@ -17,6 +17,18 @@
             @Html.DisplayFor(model => model.Description)
         </dd>
         <dt>
+            @Html.DisplayNameFor(model => model.Remarks)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Remarks)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ImagePath)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ImagePath)
+        </dd>
+        <dt>
             @Html.DisplayNameFor(model => model.Price)
         </dt>
         <dd>
@@ -37,6 +49,6 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.ProductId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" class="btn btn-info" asp-route-id="@Model.ProductId">Edit</a> |
+    <a asp-action="Index" class="btn btn-warning">Back to List</a>
 </div>

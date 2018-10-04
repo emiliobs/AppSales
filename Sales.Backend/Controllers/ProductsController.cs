@@ -1,28 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Sales.Backend.Data;
-using Sales.Backend.Models;
-
-namespace Sales.Backend.Controllers
+﻿namespace Sales.Backend.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Rendering;
+    using Microsoft.EntityFrameworkCore;
+    using Sales.Backend.Data;
+    using Sales.Backend.Models;
     public class ProductsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private IHostingEnvironment _environment;
 
-        public ProductsController(ApplicationDbContext context)
+        public ProductsController(ApplicationDbContext context, IHostingEnvironment environment)
         {
             _context = context;
+            _environment = environment;
         }
 
         // GET: Products
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Product.ToListAsync());
+            return View(await _context.Product.OrderBy(p=>p.Description).ToListAsync());
         }
 
         // GET: Products/Details/5
@@ -46,6 +50,8 @@ namespace Sales.Backend.Controllers
         // GET: Products/Create
         public IActionResult Create()
         {
+
+            //aqui envio la vista create null
             return View();
         }
 
@@ -54,15 +60,52 @@ namespace Sales.Backend.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProductId,Description,Price,IsAvailable,PublishOn")] Product product)
+        public async Task<IActionResult> Create(ProductsView view, IFormFile imageFile)
         {
             if (ModelState.IsValid)
             {
+                var picture = string.Empty;
+
+                if (imageFile != null)
+                {
+                    var path = Path.Combine(this._environment.WebRootPath, "images");
+                    Directory.CreateDirectory(path);
+
+                  picture  = imageFile.FileName;
+
+                    if (picture.Contains('\\'))
+                    {
+                        picture = picture.Split('\\').Last();
+                    }
+                    using (FileStream fs = new FileStream(Path.Combine(path,"",picture), FileMode.Create))
+                    {
+                        await imageFile.CopyToAsync(fs);
+                    }
+                                   
+                }
+
+                var product = ToProduct(view, picture);
                 _context.Add(product);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(product);
+            return View(view);
+        }
+
+        private Product ToProduct(ProductsView view, string picture)
+        {
+            return  new Product()
+            {
+               Description = view.Description,
+               ImagePath = picture,
+               IsAvailable = view.IsAvailable,
+               Price = view.Price,
+               ProductId = view.ProductId,
+               PublishOn = view.PublishOn,
+               Remarks = view.Remarks,
+               
+               
+            }; 
         }
 
         // GET: Products/Edit/5
@@ -70,13 +113,13 @@ namespace Sales.Backend.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return NotFound("Sorry, the Products doesn't Exist.!");
             }
 
             var product = await _context.Product.FindAsync(id);
             if (product == null)
             {
-                return NotFound();
+                return NotFound("Sorry,the Product wasn't Found.!");
             }
             return View(product);
         }
@@ -86,7 +129,7 @@ namespace Sales.Backend.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProductId,Description,Price,IsAvailable,PublishOn")] Product product)
+        public async Task<IActionResult> Edit(int id,  Product product)
         {
             if (id != product.ProductId)
             {
@@ -124,8 +167,7 @@ namespace Sales.Backend.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Product
-                .FirstOrDefaultAsync(m => m.ProductId == id);
+            var product = await _context.Product.FirstOrDefaultAsync(m => m.ProductId == id);
             if (product == null)
             {
                 return NotFound();

@@ -19,6 +19,16 @@
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Remarks" class="control-label"></label>
+                <textarea asp-for="Remarks" class="form-control"></textarea>
+                <span asp-validation-for="Remarks" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ImagePath" class="control-label"></label>
+                <input asp-for="ImagePath" class="form-control" />
+                <span asp-validation-for="ImagePath" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="Price" class="control-label"></label>
                 <input asp-for="Price" class="form-control" />
                 <span asp-validation-for="Price" class="text-danger"></span>
@@ -35,15 +45,16 @@
                 <input asp-for="PublishOn" class="form-control" />
                 <span asp-validation-for="PublishOn" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
+            <div class="form-group form-horizontal">
+                <input type="submit" value="Save" class="btn btn-info" />  |
+                <a asp-action="Index" class="btn btn-warning">Back to List</a>
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    
 </div>
 
 @section Scripts {
