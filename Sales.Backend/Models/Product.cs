@@ -32,20 +32,20 @@ namespace Sales.Backend.Models
         public DateTime PublishOn { get; set; }
 
 
-        //public string ImageFullPath
-        //{
-        //    get
-        //    {
-        //        if (string.IsNullOrEmpty(ImagePath))
-        //        {
-        //            return $"noproduct"; 
-        //        }
-                
-        //       // return ImagePath;
-        //        //return $"https://salesapiservices.azurewebsites.net/{ImagePath.Substring(1)}";
-        //        return $"http://192.168.0.11:555/images/{ImagePath}";
-        //    }
+        public string ImageFullPath
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(ImagePath))
+                {
+                    return "noproduct.png";
+                }
 
-        //}
+                return ImagePath;
+                //return $"https://salesapiservices.azurewebsites.net/{ImagePath.Substring(1)}";
+                //return $"http://192.168.0.11:555/images/{ImagePath}";
+            }
+
+        }
     }
 }

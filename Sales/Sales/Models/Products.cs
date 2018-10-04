@@ -25,7 +25,7 @@
             {
                 if (string.IsNullOrEmpty(ImagePath))
                 {
-                    return $"noproduct";
+                    return "noproduct";
                 }
 
                 //return $"https://salesapiservices.azurewebsites.net/{ImagePath.Substring(1)}";

@@ -166,6 +166,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\avatar.jpg" />
-    <Content Include="Resources\noproduct.png" />
+    <AndroidResource Include="Resources\noproduct.png" />
   </ItemGroup>
 </Project>
