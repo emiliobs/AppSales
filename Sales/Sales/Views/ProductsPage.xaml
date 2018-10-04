@@ -36,8 +36,10 @@
                                 </StackLayout>
                                 
                                 <Label Grid.Column="2"
+                                       FontAttributes="Bold"
                                        HorizontalOptions="End"
                                        Text="{Binding Price, StringFormat='{0:C2}'}"
+                                       TextColor="Red"
                                        VerticalOptions="Center">
                                 </Label>
                             </Grid>
