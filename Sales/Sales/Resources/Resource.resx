@@ -117,7 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
- <data name="Error" xml:space="preserve">
+  <data name="Error" xml:space="preserve">
     <value>Error</value>
   </data>
   <data name="Accept" xml:space="preserve">
@@ -314,5 +314,8 @@
   </data>
   <data name="RegisterConfirmation" xml:space="preserve">
 	<value>The user was created successfully. Now you can enter with the email and the assigned password.</value>
+  </data>
+  <data name="PlaceholderRemarks" xml:space="preserve">
+    <value>Enter the product Remarks.</value>
   </data>
 </root>

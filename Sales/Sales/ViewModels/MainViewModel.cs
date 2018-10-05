@@ -20,7 +20,7 @@
 
         #region Properties
         public ProductsViewModel Products { get; set; }
-       
+        public AddProductPage AddProduct { get; set; }
         #endregion
 
         #region Contructors
@@ -37,6 +37,8 @@
         #region Methods
         private async void GoToAddProduct()
         {
+            //aqui instancio la clase, justo en el momento que la necesito para qu pinte los binding en memoria correspondiente:
+            this.AddProduct = new AddProductPage();
             await Application.Current.MainPage.Navigation.PushAsync(new AddProductPage());
         }
         #endregion

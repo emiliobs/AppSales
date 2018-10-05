@@ -529,6 +529,15 @@ namespace Sales.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enter the product Remarks..
+        /// </summary>
+        public static string PlaceholderRemarks {
+            get {
+                return ResourceManager.GetString("PlaceholderRemarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Price.
         /// </summary>
         public static string Price {

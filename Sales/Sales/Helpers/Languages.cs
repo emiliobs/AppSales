@@ -13,6 +13,7 @@
             DependencyService.Get<ILocalize>().SetLocale(ci);
         }
 
+        public static string PlaceholderRemarks { get => Resource.PlaceholderRemarks; }
         public static string NoProductsMessage
         {
             get { return Resource.NoProductsMessage; }
