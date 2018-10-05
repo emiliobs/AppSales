@@ -167,5 +167,16 @@
   <ItemGroup>
     <Content Include="Resources\avatar.jpg" />
     <AndroidResource Include="Resources\noproduct.png" />
+    <BundleResource Include="Resources\facebook_logo.png" />
+    <BundleResource Include="Resources\ic_action_add_circle.png" />
+    <BundleResource Include="Resources\ic_action_chevron_right.png" />
+    <BundleResource Include="Resources\ic_exit_to_app.png" />
+    <BundleResource Include="Resources\ic_info.png" />
+    <BundleResource Include="Resources\ic_phonelink_setup.png" />
+    <BundleResource Include="Resources\instagram_logo.png" />
+    <BundleResource Include="Resources\nouser.png" />
+    <BundleResource Include="Resources\sales1.png" />
+    <BundleResource Include="Resources\sales2.png" />
+    <BundleResource Include="Resources\twitter_logo.png" />
   </ItemGroup>
 </Project>

@@ -5,6 +5,11 @@
              xmlns:i18n="clr-namespace:Sales.Helpers"
              BindingContext="{Binding Main, Source={StaticResource Locator}}"
              Title="{i18n:Translate Products}">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Icon="ic_action_add_circle.png" Text="Add New Product." Command="{Binding AddProductCommand}"></ToolbarItem>
+    </ContentPage.ToolbarItems>
+    
     <ContentPage.Content>
         <StackLayout BindingContext="{Binding Products}" Padding="10" Spacing="5">
 
