@@ -8,10 +8,10 @@
     <ContentPage.Content>
         <ScrollView BindingContext="{Binding AddProduct}">
             <StackLayout  Padding="10">
-                <!--<Image
+                <Image
                     Aspect="AspectFit"
                     WidthRequest="210"
-                    Source="{Binding ImageSource}">
+                    Source="noproduct">
                     <Image.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding ChangeImageCommand}"></TapGestureRecognizer>
                     </Image.GestureRecognizers>
@@ -20,7 +20,7 @@
                     FontSize="Small"
                     Text="{i18n:Translate ChangeImage}"
                     HorizontalOptions="Center">
-                </Label>-->
+                </Label>
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"></ColumnDefinition>
