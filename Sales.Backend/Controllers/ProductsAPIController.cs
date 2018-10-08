@@ -1,15 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Sales.Backend.Data;
-using Sales.Backend.Models;
-
-namespace Sales.Backend.Controllers
+﻿namespace Sales.Backend.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+    using Sales.Backend.Data;
+    using Sales.Backend.Models;
+
+
     [Route("api/[controller]")]
     [ApiController]
     public class ProductsAPIController : ControllerBase
@@ -44,6 +45,8 @@ namespace Sales.Backend.Controllers
                 return NotFound();
             }
 
+
+            //el ok convierte en json el objeto
             return Ok(product);
         }
 
@@ -86,6 +89,12 @@ namespace Sales.Backend.Controllers
         [HttpPost]
         public async Task<IActionResult> PostProduct([FromBody] Product product)
         {
+            //saqui le envio los campo ya con valores, IsAvailable and PubishOn:
+            //aqui loa configuro con la hora de londres: hace el callculo de la hora londres con la local:
+            product.PublishOn = DateTime.Now.ToUniversalTime();
+            product.IsAvailable = true;
+
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
