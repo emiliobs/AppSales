@@ -17,7 +17,7 @@
         #endregion
 
         #region Atributtes
-        private string imageSource;
+        private ImageSource imageSource;
         private bool isRunning;
         private bool isEnabled;
         #endregion
@@ -31,7 +31,7 @@
         public string Remarks { get; set; } 
         #endregion
 
-        public string ImageSource
+        public ImageSource ImageSource
         {
             get => imageSource;
 
@@ -154,11 +154,21 @@
 
                 return;
             }
-              
+
+            var productViewModel = ProductsViewModel.GetInstance();
+
+            //aqui addciono el nuevro producto al la clse pructos del listview del la clase productviewmodel
+            //casteo:
+            var newProduct = (Products)response.Result;
+            //aqui llamo el singleton de prodcctsviewmodel:
+           ProductsViewModel.GetInstance().ProductsList.Add(newProduct);
+           /// productViewModel.ProductsList.Add(new);
 
             this.IsRunning = false;
             this.IsEnabled = true;
 
+
+            productViewModel.LoadProduct();
             //aqui me regreso a la pagina anterior(desapilo):
             await Application.Current.MainPage.Navigation.PopAsync();
 

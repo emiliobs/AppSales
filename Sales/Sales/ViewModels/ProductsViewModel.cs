@@ -52,6 +52,9 @@
         #region Contructors
         public ProductsViewModel()
         {
+            //singleton
+            instance = this;
+
             //service:
             apiService = new ApiService();
 
@@ -61,12 +64,27 @@
 
         #endregion
 
+        #region Singlenton
+        private static ProductsViewModel instance;
+
+        public static ProductsViewModel GetInstance()
+        {
+            if (instance == null)
+            {
+                return  new ProductsViewModel();
+            }
+
+            return instance;
+        }
+
+        #endregion
+
         #region Commands and Methods
         public ICommand RefreshCommand { get => new RelayCommand(LoadProduct); }
         #endregion
 
         #region Methods
-        private async void LoadProduct()
+        public async void LoadProduct()
         {
             this.IsRefreshing = true;
 
