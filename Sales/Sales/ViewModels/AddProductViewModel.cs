@@ -3,6 +3,7 @@
     using GalaSoft.MvvmLight.Command;
     using Sales.Helpers;
     using Sales.Models;
+    using Sales.Services;
     using System;
     using System.Collections.Generic;
     using System.Text;
@@ -11,6 +12,10 @@
 
     public class AddProductViewModel:BaseViewModel
     {
+        #region services
+        private ApiService apiService;
+        #endregion
+
         #region Atributtes
         private string imageSource;
         private bool isRunning;
@@ -71,6 +76,9 @@
         #region Constructor
         public AddProductViewModel()
         {
+            //services:
+            apiService = new ApiService();
+
             ImageSource = "noproduct";
 
             IsEnabled = true;
@@ -106,7 +114,53 @@
                 return;
             }
 
-            await Application.Current.MainPage.DisplayAlert(Languages.Error, "Todo Bien.....", Languages.Accept);
+            this.IsRunning = true;
+            this.IsEnabled = false;
+
+            var connection = await apiService.CheckConnection();
+
+            if (!connection.IsSuccess)
+            {
+                this.IsRunning = false;
+                this.IsEnabled = true;
+
+                await Application.Current.MainPage.DisplayAlert(Languages.Error, connection.Message, Languages.Accept);
+
+                return;
+            }
+
+            //aqui armo el objeto products:  
+            var product = new Products()
+            {
+               Description = this.Description,
+               Price = price,
+               Remarks = this.Remarks,
+            };
+
+            var UrlAPI = App.Current.Resources["UrlAPI"].ToString();
+            var UrlPrefix = App.Current.Resources["UrlPrefix"].ToString();
+            var UrlProductsController = App.Current.Resources["UrlProductsController"].ToString();
+
+            var response = await apiService.Post(UrlAPI, UrlPrefix, UrlProductsController, product);
+            //var response = await apiService.GetList<Products>("http://192.168.0.11:555", "/api", "/ProductsAPI");
+
+            //aqui pregunto si grabo el post:
+            if (!response.IsSuccess)
+            {
+                this.IsRunning = false;
+                this.IsEnabled = true;
+
+                await Application.Current.MainPage.DisplayAlert(Languages.Error,response.Message, Languages.Accept);
+
+                return;
+            }
+              
+
+            this.IsRunning = false;
+            this.IsEnabled = true;
+
+            //aqui me regreso a la pagina anterior(desapilo):
+            await Application.Current.MainPage.Navigation.PopAsync();
 
         }
         #endregion
