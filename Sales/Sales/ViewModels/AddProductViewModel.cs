@@ -1,6 +1,8 @@
 ﻿namespace Sales.ViewModels
 {
     using GalaSoft.MvvmLight.Command;
+    using Plugin.Media;
+    using Plugin.Media.Abstractions;
     using Sales.Helpers;
     using Sales.Models;
     using Sales.Services;
@@ -17,6 +19,8 @@
         #endregion
 
         #region Atributtes
+        //utili el plugin de fotos jemasmontemagno: aqui guardo la foto en memoria>
+        private MediaFile file;
         private ImageSource imageSource;
         private bool isRunning;
         private bool isEnabled;
@@ -88,9 +92,61 @@
         #region Commands
         public ICommand SaveCommand { get => new RelayCommand(SaveAddProduct); }
 
+        public ICommand ChangeImageCommand { get => new RelayCommand(ChangeImage); }
+
         #endregion
 
         #region Methodos 
+
+
+        private async void ChangeImage()
+        {
+            await CrossMedia.Current.Initialize();
+
+            var souce = await Application.Current.MainPage.DisplayActionSheet(
+                 Languages.ImageSource,
+                 Languages.Cancel, 
+                 null,
+                 Languages.FromGallery,
+                 Languages.NewPicture
+                );
+
+            if (souce == Languages.Cancel)
+            {
+                this.file = null;
+
+                return;
+            }
+
+            if (souce == Languages.NewPicture)
+            {
+                this.file = await CrossMedia.Current.TakePhotoAsync(
+
+                    new StoreCameraMediaOptions
+                    {
+                        Directory = "Sample",
+                        Name = "test,jpg",
+                        PhotoSize = PhotoSize.Small,
+                    });
+            }
+            else
+            {
+                //aqui selecciono la foto de la galeria:
+                this.file = await CrossMedia.Current.PickPhotoAsync();
+            }
+
+            if (this.file != null)
+            {
+                //aqui leo todo el achivo de foro y lo cargo en memoria:
+                this.ImageSource = ImageSource.FromStream(() =>
+                {
+                    var stream = this.file.GetStream();
+
+                    return stream;
+                });
+            }
+        }
+
         private async void SaveAddProduct()
         {
             if (string.IsNullOrEmpty(this.Description))
@@ -129,12 +185,21 @@
                 return;
             }
 
+            byte[] imageArray = null;
+            if (this.file != null)
+            {
+                //casteo a bytes de arreglos:  si hay imagen o tomo una foto(si hay foto)
+                imageArray = FilesHelper.ReadFully(this.file.GetStream());
+            }
+
             //aqui armo el objeto products:  
             var product = new Products()
             {
                Description = this.Description,
                Price = price,
                Remarks = this.Remarks,
+               //aqui ya compio la foto al modelo con si propiedad imagenarray:
+               ImageArray = imageArray,
             };
 
             var UrlAPI = App.Current.Resources["UrlAPI"].ToString();

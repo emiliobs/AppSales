@@ -27,7 +27,12 @@
             @Html.DisplayNameFor(model => model.ImagePath)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.ImagePath)
+            @if (!string.IsNullOrEmpty(Model.ImageFullPath))
+            {
+
+                <img src="@Model.ImageFullPath" alt="Image" style="width:150px;height:150px;max-width: 100%; height: auto;" />
+
+            }
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Price)

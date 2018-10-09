@@ -1,14 +1,17 @@
 ﻿namespace Sales.Backend.Controllers
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Sales.Backend.Data;
+    using Sales.Backend.Helper;
     using Sales.Backend.Models;
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Threading.Tasks;
 
 
     [Route("api/[controller]")]
@@ -16,10 +19,12 @@
     public class ProductsAPIController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private IHostingEnvironment _environment;
 
-        public ProductsAPIController(ApplicationDbContext context)
+        public ProductsAPIController(ApplicationDbContext context, IHostingEnvironment environment)
         {
             _context = context;
+            this._environment = environment;
         }
 
         // GET: api/ProductsAPI
@@ -94,17 +99,59 @@
             product.PublishOn = DateTime.Now.ToUniversalTime();
             product.IsAvailable = true;
 
+          
+
+            var picture = string.Empty;
 
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _context.Product.Add(product);
+            if (product.ImageArray != null && product.ImageArray.Length > 0)
+            {
+
+                var stream = new MemoryStream(product.ImageArray);
+                var guid = Guid.NewGuid().ToString();
+                var file = $"{guid}.jpg";
+                var folder = "wwwroot/images";
+                var fullPath = $"{folder}/{file}";
+                var response = FilesHelper.UploadPhoto(stream, folder, file);
+
+                //if (fullPath.Contains('\\'))
+                //{
+                //    fullPath= fullPath.Split('\\').Last();
+                //}
+
+                if (response)
+                {
+                    product.ImagePath = fullPath;
+                }
+            }   
+
+         _context.Product.Add(product);
+
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetProduct", new { id = product.ProductId }, product);
         }
+
+
+        //private Product ToProduct(ProductsView view, string picture)
+        //{
+        //    return new Product()
+        //    {
+        //        Description = view.Description,
+        //        ImagePath = picture,
+        //        IsAvailable = view.IsAvailable,
+        //        Price = view.Price,
+        //        ProductId = view.ProductId,
+        //        PublishOn = view.PublishOn,
+        //        Remarks = view.Remarks,
+
+
+        //    };
+        //}
 
         // DELETE: api/ProductsAPI/5
         [HttpDelete("{id}")]

@@ -4,6 +4,7 @@ namespace Sales.Backend.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
     using System.Threading.Tasks;
     public class Product
@@ -32,6 +33,9 @@ namespace Sales.Backend.Models
         public DateTime PublishOn { get; set; }
 
 
+        [NotMapped]
+        public byte[] ImageArray { get; set; }
+
         public string ImageFullPath
         {
             get
@@ -41,9 +45,8 @@ namespace Sales.Backend.Models
                     return "noproduct.png";
                 }
 
-                return ImagePath;
-                //return $"https://salesapiservices.azurewebsites.net/{ImagePath.Substring(1)}";
-                //return $"http://192.168.0.11:555/images/{ImagePath}";
+                //return "http://192.168.0.11:555/images/af17985b-fc27-49c5-9b54-f15e5c6022e9.jpg";
+                return $"http://192.168.0.11:555/{ImagePath.Substring(8)}";
             }
 
         }

@@ -20,6 +20,8 @@
 
         public DateTime PublishOn { get; set; }
 
+        public byte[] ImageArray { get; set; }
+
         public string ImageFullPath
         {
             get
@@ -29,8 +31,11 @@
                     return "noproduct";
                 }
 
+                return $"http://192.168.0.11:555/{ImagePath.Substring(8)}";
                 //return $"https://salesapiservices.azurewebsites.net/{ImagePath.Substring(1)}";
-                return $"http://192.168.0.11:555/images/{ImagePath}";
+                //return $"http://192.168.0.11:555/{ImagePath}";
+                //return $"http://192.168.0.11:555/wwwroot/images/wwwroot/images/{ImagePath}";
+
             }
 
         }
