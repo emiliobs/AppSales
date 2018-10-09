@@ -225,26 +225,30 @@
             //aqui addciono el nuevro producto al la clse pructos del listview del la clase productviewmodel
             //casteo:
             var newProduct = (Products)response.Result;
+            //aqui llamo por singleton a la propiedad de lista myPorducts y le adddiciones el nuevo registro:
+            productViewModel.MyPorducts.Add(newProduct);
+            //aqui llamo al método con el singleton refreshlist y refresco depues de agregar el nuevo producto;
+            productViewModel.RefreshList();
             //aqui llamo el singleton de prodcctsviewmodel:
             //ProductsViewModel.GetInstance().ProductsList.Add(newProduct);
-            ProductsViewModel.GetInstance().ProductsList.Add(new ProductItemViewModel()
-            {
-                Description = newProduct.Description,
-                ImageArray = newProduct.ImageArray,
-                ImagePath = newProduct.ImagePath,
-                IsAvailable = newProduct.IsAvailable,
-                Price = newProduct.Price,
-                ProductId = newProduct.ProductId,
-                PublishOn = newProduct.PublishOn,
-                Remarks = newProduct.Remarks,
-            });
+            //ProductsViewModel.GetInstance().ProductsList.Add(new ProductItemViewModel()
+            //{
+            //    Description = newProduct.Description,
+            //    ImageArray = newProduct.ImageArray,
+            //    ImagePath = newProduct.ImagePath,
+            //    IsAvailable = newProduct.IsAvailable,
+            //    Price = newProduct.Price,
+            //    ProductId = newProduct.ProductId,
+            //    PublishOn = newProduct.PublishOn,
+            //    Remarks = newProduct.Remarks,
+            //});
             /// productViewModel.ProductsList.Add(new);
 
             this.IsRunning = false;
             this.IsEnabled = true;
 
 
-            productViewModel.LoadProduct();
+            //productViewModel.LoadProduct();
             //aqui me regreso a la pagina anterior(desapilo):
             await Application.Current.MainPage.Navigation.PopAsync();
 

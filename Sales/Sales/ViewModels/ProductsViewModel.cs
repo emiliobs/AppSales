@@ -24,6 +24,7 @@
         #endregion
 
         #region Properties
+        public List<Products> MyPorducts { get; set; }
         public bool IsRefreshing
         {
             get=> isRefreshing;
@@ -116,10 +117,17 @@
             }
 
             //aqui debo castiar por que aqui recibo un object tipo lista:
-            var list = (List<Products>)response.Result;
+            this.MyPorducts = (List<Products>)response.Result;   
+            //MétodoRefresList:
+            RefreshList();                                                                                     
 
+            this.IsRefreshing = false;
+        }
+
+        public void RefreshList()
+        {
             //lo mas eficiente en cuando necesitas armar una lista de otra:
-            var myList = list.Select(p=> new ProductItemViewModel()
+            var myProductItemViewModel = this.MyPorducts.Select(p => new ProductItemViewModel()
             {
                 Description = p.Description,
                 ImageArray = p.ImageArray,
@@ -128,14 +136,12 @@
                 Price = p.Price,
                 ProductId = p.ProductId,
                 PublishOn = p.PublishOn,
-                Remarks   = p.Remarks,
-                
+                Remarks = p.Remarks,
+
             });
 
             //aqui ya armo la observablecollection con lalista ya castiada:
-            ProductsList = new ObservableCollection<ProductItemViewModel>(myList);
-
-            this.IsRefreshing = false;
+            ProductsList = new ObservableCollection<ProductItemViewModel>(myProductItemViewModel.OrderBy(p => p.Description));
         }
         #endregion
     }
