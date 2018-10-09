@@ -12,7 +12,7 @@
     using System.Windows.Input;
     using Xamarin.Forms;
 
-    public class AddProductViewModel:BaseViewModel
+    public class AddProductViewModel : BaseViewModel
     {
         #region services
         private ApiService apiService;
@@ -32,7 +32,7 @@
         #region Properties bindables
         public string Description { get; set; }
         public string Price { get; set; }
-        public string Remarks { get; set; } 
+        public string Remarks { get; set; }
         #endregion
 
         public ImageSource ImageSource
@@ -105,7 +105,7 @@
 
             var souce = await Application.Current.MainPage.DisplayActionSheet(
                  Languages.ImageSource,
-                 Languages.Cancel, 
+                 Languages.Cancel,
                  null,
                  Languages.FromGallery,
                  Languages.NewPicture
@@ -151,7 +151,7 @@
         {
             if (string.IsNullOrEmpty(this.Description))
             {
-                await Application.Current.MainPage.DisplayAlert(Languages.Error,Languages.DescriptionError,Languages.Accept);
+                await Application.Current.MainPage.DisplayAlert(Languages.Error, Languages.DescriptionError, Languages.Accept);
 
                 return;
             }
@@ -195,11 +195,11 @@
             //aqui armo el objeto products:  
             var product = new Products()
             {
-               Description = this.Description,
-               Price = price,
-               Remarks = this.Remarks,
-               //aqui ya compio la foto al modelo con si propiedad imagenarray:
-               ImageArray = imageArray,
+                Description = this.Description,
+                Price = price,
+                Remarks = this.Remarks,
+                //aqui ya compio la foto al modelo con si propiedad imagenarray:
+                ImageArray = imageArray,
             };
 
             var UrlAPI = App.Current.Resources["UrlAPI"].ToString();
@@ -215,7 +215,7 @@
                 this.IsRunning = false;
                 this.IsEnabled = true;
 
-                await Application.Current.MainPage.DisplayAlert(Languages.Error,response.Message, Languages.Accept);
+                await Application.Current.MainPage.DisplayAlert(Languages.Error, response.Message, Languages.Accept);
 
                 return;
             }
@@ -226,8 +226,19 @@
             //casteo:
             var newProduct = (Products)response.Result;
             //aqui llamo el singleton de prodcctsviewmodel:
-           ProductsViewModel.GetInstance().ProductsList.Add(newProduct);
-           /// productViewModel.ProductsList.Add(new);
+            //ProductsViewModel.GetInstance().ProductsList.Add(newProduct);
+            ProductsViewModel.GetInstance().ProductsList.Add(new ProductItemViewModel()
+            {
+                Description = newProduct.Description,
+                ImageArray = newProduct.ImageArray,
+                ImagePath = newProduct.ImagePath,
+                IsAvailable = newProduct.IsAvailable,
+                Price = newProduct.Price,
+                ProductId = newProduct.ProductId,
+                PublishOn = newProduct.PublishOn,
+                Remarks = newProduct.Remarks,
+            });
+            /// productViewModel.ProductsList.Add(new);
 
             this.IsRunning = false;
             this.IsEnabled = true;

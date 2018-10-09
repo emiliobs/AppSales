@@ -7,6 +7,7 @@
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Linq;
     using System.Text;
     using System.Windows.Input;
     using Xamarin.Forms;
@@ -19,7 +20,7 @@
         #endregion
 
         #region Attributtes
-        private ObservableCollection<Products> productsList;
+        private ObservableCollection<ProductItemViewModel> productsList;
         #endregion
 
         #region Properties
@@ -35,7 +36,7 @@
                 }
             }
         }
-        public ObservableCollection<Products> ProductsList
+        public ObservableCollection<ProductItemViewModel> ProductsList
         {
             get => productsList;
             set
@@ -117,8 +118,22 @@
             //aqui debo castiar por que aqui recibo un object tipo lista:
             var list = (List<Products>)response.Result;
 
+            //lo mas eficiente en cuando necesitas armar una lista de otra:
+            var myList = list.Select(p=> new ProductItemViewModel()
+            {
+                Description = p.Description,
+                ImageArray = p.ImageArray,
+                ImagePath = p.ImagePath,
+                IsAvailable = p.IsAvailable,
+                Price = p.Price,
+                ProductId = p.ProductId,
+                PublishOn = p.PublishOn,
+                Remarks   = p.Remarks,
+                
+            });
+
             //aqui ya armo la observablecollection con lalista ya castiada:
-            ProductsList = new ObservableCollection<Products>(list);
+            ProductsList = new ObservableCollection<ProductItemViewModel>(myList);
 
             this.IsRefreshing = false;
         }

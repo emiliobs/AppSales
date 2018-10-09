@@ -137,5 +137,48 @@
             }
         }
 
+        public async Task<Response> Delete(string urlBase, string prefix, string controller, int id)
+        {
+            try
+            {
+                var client = new HttpClient();
+                client.BaseAddress = new Uri(urlBase);
+                var url = $"{prefix}{controller}/{id}";
+                var Response = await client.DeleteAsync(url);
+
+                //aqui leo esto que llega lo leo como un string por que llega como un json:
+                var answer = await Response.Content.ReadAsStringAsync();
+
+                if (!Response.IsSuccessStatusCode)
+                {
+                    return new Response()
+                    {
+                        IsSuccess = false,
+                        Message = answer,
+                    };
+                }
+
+                //desarializar es convertir de string a objeto:
+                //var list = JsonConvert.DeserializeObject<List<T>>(answer);
+
+                return new Response()
+                {
+                    IsSuccess = true,
+                  
+                };
+
+                //serializar es de objecto a string:
+            }
+            catch (Exception ex)
+            {
+
+                return new Response()
+                {
+                    IsSuccess = false,
+                    Message = ex.Message,
+                };
+            }
+        }
+
     }
 }
