@@ -89,7 +89,7 @@
 
                 <Button
                 BackgroundColor="OrangeRed"
-                Command="{Binding SaveCommand}"
+                Command="{Binding SaveEditCommand}"
                 IsEnabled="{Binding IsEnabled}"
                 CornerRadius="23"
                 TextColor="White"

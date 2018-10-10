@@ -180,5 +180,51 @@
             }
         }
 
+        public async Task<Response> Put<T>(string urlBase, string prefix, string controller, T model, int id)
+        {
+             try
+            {
+                //aqui serializo el objecto a string:
+                var request = JsonConvert.SerializeObject(model);
+                //el cuepo que le envio al post:
+                var content = new StringContent(request, Encoding.UTF8, "application/json");
+                var client = new HttpClient();
+                client.BaseAddress = new Uri(urlBase);
+                var url = $"{prefix}{controller}/{id}";
+                var Response = await client.PutAsync(url,content);   
+                //aqui leo esto que llega lo leo como un string por que llega como un json:
+                var answer = await Response.Content.ReadAsStringAsync(); 
+
+                if (!Response.IsSuccessStatusCode)
+                {
+                    return new Response()
+                    {
+                        IsSuccess = false,
+                        Message = answer,
+                    };
+                }
+
+                //desarializar es convertir de string a objeto:
+                //aqui recibo el objecto con respuesta id asignada al la bd:
+                var obj = JsonConvert.DeserializeObject<T>(answer);
+
+                return new Response()
+                {
+                    IsSuccess = true,
+                    Result = obj,
+                };
+
+                //serializar es de objecto a string:
+            }
+            catch (Exception ex)
+            {
+
+                return new Response()
+                {
+                    IsSuccess = false,
+                    Message = ex.Message,
+                };
+            }
+        }
     }
 }
