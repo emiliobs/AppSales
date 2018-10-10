@@ -181,5 +181,6 @@
     <BundleResource Include="Resources\sales1.png" />
     <BundleResource Include="Resources\sales2.png" />
     <BundleResource Include="Resources\twitter_logo.png" />
+    <AndroidResource Include="Resources\ic_launcher.png" />
   </ItemGroup>
 </Project>
