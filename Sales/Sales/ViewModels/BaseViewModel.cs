@@ -1,4 +1,4 @@
-﻿namespace Sales.Models
+﻿namespace Sales.ViewModels
 {
     using System;
     using System.Collections.Generic;

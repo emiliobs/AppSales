@@ -22,6 +22,7 @@
         public ProductsViewModel Products { get; set; }
         public AddProductViewModel AddProduct { get; set; }
         public EditProductViewModel EditProduct { get; set; }
+        public LoginViewModel Login { get; set; }
         #endregion
 
         #region Contructors
@@ -30,7 +31,8 @@
             //Singleton
             instance = this;
 
-            Products = new ProductsViewModel();
+            //yano lo intacio por la aplicación arranca por la loginpage
+            //Products = new ProductsViewModel();
         }
         #endregion
 
