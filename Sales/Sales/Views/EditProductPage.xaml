@@ -87,15 +87,29 @@
                 VerticalOptions="FillAndExpand">
                 </ActivityIndicator>
 
-                <Button
-                BackgroundColor="OrangeRed"
-                Command="{Binding SaveEditCommand}"
-                IsEnabled="{Binding IsEnabled}"
-                CornerRadius="23"
-                TextColor="White"
-                Text="{i18n:Translate Save}"
-                HeightRequest="46">
-                </Button>
+                <StackLayout Orientation="Horizontal">
+                    <Button
+                        BackgroundColor="OrangeRed"
+                        Command="{Binding SaveEditCommand}"
+                        IsEnabled="{Binding IsEnabled}"
+                        CornerRadius="23"
+                        TextColor="White"
+                        Text="{i18n:Translate Save}"
+                        HeightRequest="46"
+                        HorizontalOptions="FillAndExpand">
+                    </Button>
+                    <Button
+                        HorizontalOptions="FillAndExpand"
+                        BackgroundColor="Red"
+                        Command="{Binding DeleteEditProductCommand}"
+                        IsEnabled="{Binding IsEnabled}"
+                        CornerRadius="23"
+                        TextColor="White"
+                        Text="{i18n:Translate Delete}"
+                        HeightRequest="46">
+                    </Button>
+                </StackLayout>
+                
 
             </StackLayout>
         </ScrollView>

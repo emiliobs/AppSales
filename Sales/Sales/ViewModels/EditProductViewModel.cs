@@ -99,6 +99,9 @@
         #endregion
 
         #region Commnads
+
+        public ICommand DeleteEditProductCommand { get => new RelayCommand(DeleteEditProduct); }
+      
         public ICommand SaveEditCommand { get => new RelayCommand(SaveEdit); }
 
         public ICommand ChangeImageCommand { get => new RelayCommand(ChangeImage); }
@@ -106,6 +109,67 @@
         #endregion
 
         #region Methods
+
+
+        private async  void DeleteEditProduct()
+        {
+            var answer = await Application.Current.MainPage.DisplayAlert(
+            Languages.Confirm,
+                Languages.DeleteConfirmation,
+                Languages.Yes,
+                Languages.No);
+
+            if (!answer)
+            {
+                return;
+            }
+
+            this.IsRunning = true;
+            this.IsEnabled = false;
+
+            var connection = await apiService.CheckConnection();
+            if (!connection.IsSuccess)
+            {
+                this.IsRunning = false;
+                this.IsEnabled = true;
+
+                await Application.Current.MainPage.DisplayAlert(Languages.Error, connection.Message, Languages.Accept);
+
+                return;
+            }
+
+            var UrlAPI = App.Current.Resources["UrlAPI"].ToString();
+            var UrlPrefix = App.Current.Resources["UrlPrefix"].ToString();
+            var UrlProductsController = App.Current.Resources["UrlProductsController"].ToString();
+
+            // this.ProductId sale des contexto de la herencia con products
+            var response = await apiService.Delete(UrlAPI, UrlPrefix, UrlProductsController, this.Products.ProductId);
+            if (!response.IsSuccess)
+            {
+                this.IsRunning = false;
+                this.IsEnabled = true;
+                await Application.Current.MainPage.DisplayAlert(Languages.Error, response.Message, Languages.Accept);
+                return;
+            }
+
+            var productsViewModel = ProductsViewModel.GetInstance();
+
+            //aqui busco el producto a borrar:
+            var deleteProduct = productsViewModel.MyPorducts.Where(p => p.ProductId.Equals(this.Products.ProductId)).FirstOrDefault();
+            if (deleteProduct != null)
+            {
+                productsViewModel.MyPorducts.Remove(deleteProduct);
+            }
+
+            productsViewModel.RefreshList();
+
+
+            this.IsRunning = false;
+            this.IsEnabled = true;
+
+            await Application.Current.MainPage.Navigation.PopAsync();
+
+        }
 
         private async void ChangeImage()
         {

@@ -26,10 +26,14 @@
                                 <MenuItem Text="{i18n:Translate Delete}" Command="{Binding DeleteProductCommand}" IsDestructive="True"></MenuItem>
                             </ViewCell.ContextActions>
                             <Grid>
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding EditProductComand}"></TapGestureRecognizer>
+                                </Grid.GestureRecognizers>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                                     <ColumnDefinition Width="2*"></ColumnDefinition>
                                     <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
                                 <Image Source="{Binding ImageFullPath}"
                                        WidthRequest="85"
@@ -51,6 +55,9 @@
                                        TextColor="Red"
                                        VerticalOptions="Center">
                                 </Label>
+                                <Image Grid.Column="3" Source="ic_action_chevron_right"
+                                       VerticalOptions="Center">                                    
+                                </Image>
                             </Grid>
                         </ViewCell>
                     </DataTemplate>

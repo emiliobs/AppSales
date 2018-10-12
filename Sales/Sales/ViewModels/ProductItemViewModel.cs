@@ -25,9 +25,26 @@
         #region Contructors
         public ProductItemViewModel()
         {
+            //singleton
+            instance = this;
             //Services
             apiService = new ApiService();
         }
+        #endregion
+
+        #region Singlenton
+        private static ProductItemViewModel instance;
+
+        public static ProductItemViewModel GetInstance()
+        {
+            if (instance == null)
+            {
+                return new ProductItemViewModel();
+            }
+
+            return instance;
+        }
+
         #endregion
 
         #region Commands
@@ -46,7 +63,7 @@
             await Application.Current.MainPage.Navigation.PushAsync(new EditProductPage());
         }
 
-        private async void DeleteProduct()
+        public async void DeleteProduct()
         {
             var answer = await Application.Current.MainPage.DisplayAlert(
                 Languages.Confirm,
@@ -84,11 +101,15 @@
             var productsViewModel = ProductsViewModel.GetInstance();
 
             //aqui busco el producto a borrar:
-            var deleteProduct = productsViewModel.ProductsList.Where(p=>p.ProductId.Equals(this.ProductId)).FirstOrDefault();
+            var deleteProduct = productsViewModel.MyPorducts.Where(p => p.ProductId.Equals(this.ProductId)).FirstOrDefault();
             if (deleteProduct != null)
             {
-                productsViewModel.ProductsList.Remove(deleteProduct);
+                productsViewModel.MyPorducts.Remove(deleteProduct);
             }
+
+            productsViewModel.RefreshList();
+
+            await Application.Current.MainPage.Navigation.PopAsync();
         }
 
         #endregion
