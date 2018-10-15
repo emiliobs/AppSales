@@ -32,7 +32,7 @@
             instance = this;
 
             //yano lo intacio por la aplicación arranca por la loginpage
-            //Products = new ProductsViewModel();
+            Products = new ProductsViewModel();
         }
         #endregion
 

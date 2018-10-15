@@ -32,28 +32,29 @@
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                                     <ColumnDefinition Width="2*"></ColumnDefinition>
-                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
                                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
-                                <Image Source="{Binding ImageFullPath}"
-                                       WidthRequest="85"
-                                       HeightRequest="85">                                    
+                                <Image
+                                       WidthRequest="80"   
+                                        HeightRequest="80"
+                                        Grid.Column="0"
+                                        Source="{Binding ImageFullPath}">
                                 </Image>
                                 <StackLayout Grid.Column="1" VerticalOptions="Center">
                                     <Label 
-                                       Text="{Binding Description}"
-                                       FontAttributes="Bold"                                      
-                                       VerticalOptions="Center">
+                                        Text="{Binding Description}"
+                                        FontAttributes="Bold">
                                     </Label>
-                                    <Label Text="{Binding Remarks}"></Label>
+                                    <Label
+                                            Text="{Binding Remarks}">
+                                    </Label>
                                 </StackLayout>
-                                
-                                <Label Grid.Column="2"
-                                       FontAttributes="Bold"
-                                       HorizontalOptions="End"
-                                       Text="{Binding Price, StringFormat='{0:C2}'}"
-                                       TextColor="Red"
-                                       VerticalOptions="Center">
+                                <Label
+                                        Grid.Column="2"
+                                        Text="{Binding Price}"
+                                        HorizontalOptions="End"
+                                        VerticalOptions="Center">
                                 </Label>
                                 <Image Grid.Column="3" Source="ic_action_chevron_right"
                                        VerticalOptions="Center">                                    
